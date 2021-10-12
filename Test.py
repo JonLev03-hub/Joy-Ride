@@ -9,8 +9,8 @@ screen = pygame.display.set_mode([Size,Size])
 clock = pygame.time.Clock()         #initialize a clock for FPS cap
 FPS = 30                            #Set FPS cap
 
-backgroundImage = pygame.image.load(os.path.join("Resources","road.png"))   # Initializes the road background
-background = pygame.transform.scale(backgroundImage,(Size*2,Size))
+backgroundImage = pygame.image.load(os.path.join("Resources","road2.png"))   # Initializes the road background
+background = pygame.transform.scale(backgroundImage,(Size,Size))
 
 carImage = pygame.image.load(os.path.join("resources","car.png"))     #Initialize the Car
 Car = pygame.transform.scale(carImage,(75,110))  
@@ -26,13 +26,12 @@ while running :
     for event in pygame.event.get():                # If the player closes the window it ends the script
         if event.type == pygame.QUIT:
             running = False
-
-    screen.blit(background,(0-Size/2,y))                   # Set the background
-    screen.blit(background,(0-Size/2,y - Size))
+    screen.blit(background,(0,y))                   # Set the background 
+    screen.blit(background,(0,y - Size))  
     screen.blit(Car,(305,300))
     pygame.display.update()
 
-    if y > Size:                        #reset the background cordinates
+    if y > Size:                        #Replaces the intersection once your twice the distance of the road
         y = 0
 
     pressed_keys = pygame.key.get_pressed()                # Detects user input to move forward instead of just move
