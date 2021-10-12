@@ -1,5 +1,7 @@
 import pygame
 import os
+
+from pygame.constants import K_1, K_SPACE
 pygame.init()                                       #initialize the screen
 Size = 600      
 screen = pygame.display.set_mode([Size,Size])
@@ -12,8 +14,8 @@ Car = pygame.transform.scale(carImage,(75,110))
 Car.set_colorkey((255,255,255))
 Car.convert_alpha()
 
-y = 0                                               # initialize the y value for the background
-
+debug = False
+y = 0                                               # initialize the y value for the background             # Tracks keys pressed
 running = True                                      # Sets the game as running
 while running :                             
 
@@ -28,7 +30,8 @@ while running :
 
     if y > Size:                        #reset the background cordinates
         y = 0
-    y += 1
-    
-    
+    pressed_keys = pygame.key.get_pressed()
+    if pressed_keys[pygame.K_SPACE] :
+        y += 2
+             
 pygame.quit()
