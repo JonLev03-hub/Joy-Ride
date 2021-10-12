@@ -18,7 +18,7 @@ Car.set_colorkey((255,255,255))
 Car.convert_alpha()
 
 debug = False
-Velocity = 0
+Velocity = 0                                    # Allows the code to have a velocity and acceleration 
 y = 0                                               # initialize the y value for the background            
 running = True                                      # Sets the game as running
 while running :                             
@@ -35,11 +35,13 @@ while running :
     if y > Size:                        #reset the background cordinates
         y = 0
 
-    pressed_keys = pygame.key.get_pressed()     # Detects user input to move forward instead of just move
-    if pressed_keys[pygame.K_SPACE] and Velocity < 20:
-        Velocity += .5
-    elif Velocity > 3:
-        Velocity -=.45
+    pressed_keys = pygame.key.get_pressed()                # Detects user input to move forward instead of just move
+    if pressed_keys[pygame.K_SPACE] and Velocity < 15:      #this block also moves the map according to the velocity and has a drag and acceleration aspect
+        Velocity += .3
+    elif Velocity > 0:
+        Velocity -=.5
+    else :
+        Velocity = 0
     Velocity = float("{0:.2f}".format(Velocity))
     y += Velocity
 
