@@ -15,7 +15,7 @@ Car.set_colorkey((255,255,255))
 Car.convert_alpha()
 
 debug = False
-y = 0                                               # initialize the y value for the background             # Tracks keys pressed
+y = 0                                               # initialize the y value for the background            
 running = True                                      # Sets the game as running
 while running :                             
 
@@ -30,7 +30,8 @@ while running :
 
     if y > Size:                        #reset the background cordinates
         y = 0
-    pressed_keys = pygame.key.get_pressed()
+
+    pressed_keys = pygame.key.get_pressed()     # Detects user input to move forward instead of just move
     if pressed_keys[pygame.K_SPACE] :
         y += 2
              
