@@ -6,6 +6,9 @@ pygame.init()                                       #initialize the screen
 Size = 600      
 screen = pygame.display.set_mode([Size,Size])
 
+clock = pygame.time.Clock()         #initialize a clock for FPS cap
+FPS = 30                            #Set FPS cap
+
 backgroundImage = pygame.image.load(os.path.join("Resources","road.png"))   # Initializes the road background
 background = pygame.transform.scale(backgroundImage,(Size*2,Size))
 
@@ -15,6 +18,7 @@ Car.set_colorkey((255,255,255))
 Car.convert_alpha()
 
 debug = False
+Velocity = 0
 y = 0                                               # initialize the y value for the background            
 running = True                                      # Sets the game as running
 while running :                             
@@ -32,7 +36,16 @@ while running :
         y = 0
 
     pressed_keys = pygame.key.get_pressed()     # Detects user input to move forward instead of just move
-    if pressed_keys[pygame.K_SPACE] :
-        y += 2
+    if pressed_keys[pygame.K_SPACE] and Velocity < 20:
+        Velocity += .5
+    elif Velocity > 3:
+        Velocity -=.45
+    Velocity = float("{0:.2f}".format(Velocity))
+    y += Velocity
+
+
+
+    clock.tick(FPS) 
+    print(Velocity)                           #sets the FPS Cap
              
 pygame.quit()
