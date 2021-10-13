@@ -1,6 +1,21 @@
 import pygame
 import os
-import random
+
+class display :
+    def __init__ (self) : 
+        self.screen_size = 600
+        self.FPS = 30
+class car :
+    def __init__ (self,top_speed,acceleration,drag,health,x,y) :
+        self.top_speed = top_speed
+        self.acceleration = acceleration
+        self.health = health
+        self.drag = drag
+        self.x = x
+        self.y = y
+
+user = car(20,.3,.5,20,305,300)
+
 from pygame.constants import K_1, K_SPACE
 pygame.init()                                       #initialize the screen
 Size = 600      
