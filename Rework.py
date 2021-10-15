@@ -1,5 +1,7 @@
 import pygame
 import os
+import random 
+
 
 pygame.init()                                                       # initializing pygame
 
@@ -19,7 +21,7 @@ Bottle.set_colorkey((255,255,255))                                              
 Bottle.convert_alpha()
 
 cars = {}                                                           # initialize a list for all the cars
-car_cap = 10
+car_cap = 5
 
 car_image_1 = pygame.image.load(os.path.join("Resources", "car_image_1.png"))   # Create car one image
 car_1 = pygame.transform.scale(car_image_1,(75,110))
@@ -41,35 +43,38 @@ player = {                                                          # Create the
 class car :                  # create a car object that has the attribues a car needs
     def __init__ (self,top_speed,acceleration,drag,health,x,y,speed,image) :
         self.direction = -1         # (negitive is up positive is down)                               
-        self.top_speed = top_speed*self.direction                    
-        self.acceleration = acceleration*self.direction           
+        self.top_speed = top_speed                    
+        self.acceleration = acceleration           
         self.health = health                                       
         self.drag = drag                                           
         self.x = x                                              
         self.y = y                                                
-        self.speed = speed*self.direction                                                                        
+        self.speed = speed                                                                      
         self.image = image                                             
 
     def update(self) :                                       # update the position of the car and movement speeds
 
-        if  self.y > size :                                   # deletes thec ar when its off the screen
-            cars.remove(self)
-            """ initialize a new car here"""
+        if  self.y > size or self.y < - size :                                   # deletes thec ar when its off the screen
+            self.__init__(random.randrange(5,15),random.uniform(.1,.2),random.uniform(.4,.5),50,random.randrange(10,520),-100,0,car_1)
+            self.speed = self.top_speed
 
         elif self.speed < self.top_speed :                            # checks if the car is at top speed
             self.speed += self.acceleration                                  # move the car forward based off the velocity
 
-        elif self.speed >= 0 :                                       # checks if the car needs to slow down
+        elif self.speed > 0 :                                       # checks if the car needs to slow down
             self.speed -= self.drag                                     # slows the car down
         else :
             self.speed = 0                                            # makes sure that the cars dont go backwards based off drag
 
-        self.y -= player["speed"] - self.speed                      # sets back the position based off the players movement and car speed        
+        self.y += player["speed"] - self.speed                      # sets back the position based off the players movement and car speed        
       
-        screen.blit(self.image,self.x,self.y)                         # place the car on the screen
+        screen.blit(self.image,(self.x,self.y))                         # place the car on the screen
 
+for x in range(car_cap - len(cars)) : 
+    cars["car" + str(x)] = car(random.randrange(5,15),random.uniform(.1,.2),random.uniform(.4,.5),50,random.randrange(10,520),-100,0,car_1)
+    cars["car" + str(x)].speed = cars["car" + str(x)].top_speed
 """Create a script that spawns cars in the top of the map with random statistics"""
-
+print(len(cars))
 running = True                                      # Sets the game as running
 debug = False
 
@@ -83,11 +88,12 @@ while running :
         background_pos = 0
     screen.blit(background,(0,background_pos))                   #Placing the screen background
     screen.blit(background,(0,background_pos - size))
-    
-    for car in cars :                                               # Place all car objects and updating them
-        car.update()
 
     """Update the items"""
+    
+    for car in cars :                                               # Place all car objects and updating them
+        cars[car].update()
+        print(f"updated{car}")
 
     pressed_keys = pygame.key.get_pressed()                # identify player inputs
     if pressed_keys[pygame.K_w] and player['speed'] < player["top_speed"]:          #increase speed of the player based off inputs
