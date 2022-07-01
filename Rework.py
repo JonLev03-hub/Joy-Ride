@@ -8,8 +8,8 @@ pygame.init()                                                       # initializi
 size = 600                                                          # declaring screen size
 screen = pygame.display.set_mode([size,size])                       # initialize the screen
 
-backgroundImage = pygame.image.load(os.path.join("Resources","road2.png"))   # Initializes the road background
-background = pygame.transform.scale(backgroundImage,(size,size))
+background = pygame.image.load(os.path.join("Resources","road2.png"))   # Initializes the road background
+background = pygame.transform.scale(background,(size,size))
 background_pos = 0
 
 clock = pygame.time.Clock()         #initialize a clock for FPS cap
@@ -37,8 +37,11 @@ player = {                                                          # Create the
     "y" : 300,
     "speed" : 0,
     "handling" : .5,
-    "image" : car_1
-}
+    "image" : car_1,
+    "type" : "car",
+    "width" : 75,
+    "height" : 110
+    }
 
 class car :                  # create a car object that has the attribues a car needs
     def __init__ (self,top_speed,acceleration,drag,health,x,y,speed,image) :
@@ -50,12 +53,14 @@ class car :                  # create a car object that has the attribues a car 
         self.x = x                                              
         self.y = y                                                
         self.speed = speed                                                                      
-        self.image = image                                             
+        self.image = image  
+        self.width = 75
+        self.height = 110
 
     def update(self) :                                       # update the position of the car and movement speeds
 
         if  self.y > size or self.y < - size :                                   # deletes thec ar when its off the screen
-            self.__init__(random.randrange(5,15),random.uniform(.1,.2),random.uniform(.4,.5),50,random.randrange(10,520),-100,0,car_1)
+            self.__init__(random.randrange(5,15),random.uniform(.1,.2),random.uniform(.4,.5),50,random.randrange(10,520),random.randint(-600,-100),0,car_1)
             self.speed = self.top_speed
 
         elif self.speed < self.top_speed :                            # checks if the car is at top speed
@@ -71,13 +76,12 @@ class car :                  # create a car object that has the attribues a car 
         screen.blit(self.image,(self.x,self.y))                         # place the car on the screen
 
 for x in range(car_cap - len(cars)) : 
-    cars["car" + str(x)] = car(random.randrange(5,15),random.uniform(.1,.2),random.uniform(.4,.5),50,random.randrange(10,520),-100,0,car_1)
+    cars["car" + str(x)] = car(random.randrange(5,15),random.uniform(.1,.2),random.uniform(.4,.5),50,random.randrange(10,520),random.randint(-600,-100),0,car_1)
     cars["car" + str(x)].speed = cars["car" + str(x)].top_speed
 """Create a script that spawns cars in the top of the map with random statistics"""
 print(len(cars))
 running = True                                      # Sets the game as running
 debug = False
-
 while running :                             
 
     for event in pygame.event.get():                # If the player closes the window it ends the script
